@@ -9,10 +9,8 @@ import {onMounted} from "vue";
 const productsStore = useProductsStore();
 const cartStore = useCartStore();
 
-const addToCart = (payload) => {
-console.log("product", payload );
-cartStore.items.push(payload)
-
+const addToCart = (count, product) => {
+  cartStore.items.push({count: count, product: product})
 }
 
 onMounted(() => {
@@ -28,7 +26,7 @@ onMounted(() => {
           v-for="product in productsStore.products"
           :key="product.name"
           :product="product"
-          @add-to-cart="addToCart"
+          @add-to-cart="addToCart($event, product)"
       />
     </ul>
   </div>

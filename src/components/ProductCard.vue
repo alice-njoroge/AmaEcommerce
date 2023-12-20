@@ -23,7 +23,7 @@ const count = ref(0);
         <AppCountInput v-model="count" />
       </div>
       <AppButton
-        class="primary" @click="$emit('addToCart', {count, product}), (count = 0)">Add to Cart</AppButton>
+        class="primary" @click="$emit('addToCart', count), (count = 0)">Add to Cart</AppButton>
     </div>
   </li>
 </template>
