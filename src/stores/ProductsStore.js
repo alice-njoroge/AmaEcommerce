@@ -1,15 +1,14 @@
 import {defineStore} from "pinia";
+import {ref} from "vue";
 
 
-export const useProductsStore = defineStore('ProductsStore', {
-    state: () => {
-        return {
-            products: []
+export const useProductsStore = defineStore('ProductsStore',
+    () => {
+        const products = ref([]);
+        const getProducts = async () => {
+            products.value = (await import("@/data/products.json")).default
         }
-    },
-    actions: {
-        async getProducts(){
-            this.products = (await import("@/data/products.json")).default
-        }
-    }
-})
+
+        return {products, getProducts}
+
+    })

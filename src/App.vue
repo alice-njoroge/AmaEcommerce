@@ -10,7 +10,7 @@ const productsStore = useProductsStore();
 const cartStore = useCartStore();
 
 const addToCart = (count, product) => {
-  cartStore.items.push({count: count, product: product})
+  cartStore.addToCart({count: count, product: product})
 }
 
 onMounted(() => {
