@@ -15,16 +15,17 @@ const active = ref(false);
     <!-- Icon that always shows -->
     <span class="cursor-pointer" @click="active = true">
       <fa icon="shopping-cart" size="lg" class="text-gray-700"/>
-      <div class="cart-count absolute">{{ cartStore.totalItems}}</div>
+      <div class="cart-count absolute">{{ cartStore.totalItems }}</div>
     </span>
     <!-- Modal Overlay only shows when cart is clicked on -->
     <AppModalOverlay :active="active" @close="active = false">
       <div v-if="cartStore.items.length">
         <ul v-for="item in cartStore.items" :key="item.product.id" class="items-in-cart">
           <CartItem
+              v-model="item.count"
               :product="item.product"
               :count="item.count"
-              @updateCount=""
+              @updateCount="updateCount"
               @clear=""
           />
 
