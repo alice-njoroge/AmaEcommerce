@@ -2,9 +2,12 @@
 import TheHeader from "@/components/TheHeader.vue";
 import ProductCard from "@/components/ProductCard.vue";
 import {useProductsStore} from "@/stores/ProductsStore";
-import {storeToRefs} from "pinia";
+import {onMounted} from "vue";
 
-const {products}= storeToRefs(useProductsStore());
+const productsStore = useProductsStore();
+onMounted(() => {
+  productsStore.getProducts();
+})
 </script>
 
 <template>
@@ -12,10 +15,11 @@ const {products}= storeToRefs(useProductsStore());
     <TheHeader/>
     <ul class="sm:flex flex-wrap lg:flex-nowrap gap-5">
       <ProductCard
-          v-for="product in products"
+          v-for="product in productsStore.products"
           :key="product.name"
           :product="product"
       />
     </ul>
   </div>
+
 </template>
