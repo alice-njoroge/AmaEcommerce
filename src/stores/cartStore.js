@@ -10,7 +10,7 @@ export const useCartStore = defineStore('cartStore',
             //check if we have the product already in state and add it if it is not, else increase the count
             const index = items.value.findIndex(i => i.product.id === item.product.id)
             if (index === -1) {
-                items.value.push(item);
+                items.value.push({...item});
             } else {
                 items.value[index].count += item.count;
             }
