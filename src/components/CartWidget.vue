@@ -25,13 +25,13 @@ const active = ref(false);
               v-model="item.count"
               :product="item.product"
               :count="item.count"
-              @updateCount="updateCount"
-              @clear=""
+              @updateCount="cartStore.updateCount(item, $event)"
+              @clear="cartStore.removeItem(item.product)"
           />
 
         </ul>
         <div class="flex justify-end text-2xl mb-5">
-          Total: <strong>{{cartStore.cartTotals}}</strong>
+          Total: <strong>${{cartStore.cartTotals}}</strong>
         </div>
         <div class="flex justify-end">
           <AppButton @click="cartStore.$reset()" class="secondary mr-2">Clear Cart</AppButton>

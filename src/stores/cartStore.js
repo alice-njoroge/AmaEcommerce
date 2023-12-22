@@ -25,12 +25,27 @@ export const useCartStore = defineStore('cartStore',
                 return accumulator + current.count;
             }, 0)
         })
-        const cartTotals = computed(()=>{
+        const cartTotals = computed(() => {
             return items.value.reduce((accumulator, current) => {
                 return accumulator + (current.product.price * current.count);
             }, 0)
         })
+        const removeItem = (item) => {
+            const index = items.value.findIndex(i => i.product.id === item.id);
+            items.value.splice(index, 1);
+        }
 
-        return {addToCart, items, $reset, totalItems, cartTotals}
+        const updateCount = (item, newCount) => {
+            if (newCount === 0){
+                removeItem(item);
+            }
+            const index = items.value.findIndex(i => i.product.id === item.product.id);
+            if (index !== -1) {
+                items.value[index].count = newCount;
+            }
+
+
+        }
+        return {addToCart, items, $reset, totalItems, cartTotals, removeItem, updateCount}
 
     })
