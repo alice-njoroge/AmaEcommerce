@@ -14,8 +14,6 @@ export const useCartStore = defineStore('cartStore',
             } else {
                 items.value[index].count += item.count;
             }
-
-
         }
 
         const $reset = () => {
@@ -27,7 +25,12 @@ export const useCartStore = defineStore('cartStore',
                 return accumulator + current.count;
             }, 0)
         })
+        const cartTotals = computed(()=>{
+            return items.value.reduce((accumulator, current) => {
+                return accumulator + (current.product.price * current.count);
+            }, 0)
+        })
 
-        return {addToCart, items, $reset, totalItems}
+        return {addToCart, items, $reset, totalItems, cartTotals}
 
     })

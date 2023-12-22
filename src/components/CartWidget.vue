@@ -19,7 +19,7 @@ const active = ref(false);
     </span>
     <!-- Modal Overlay only shows when cart is clicked on -->
     <AppModalOverlay :active="active" @close="active = false">
-      <div v-if="cartStore.items.length">
+      <div v-if="cartStore.totalItems > 0 ">
         <ul v-for="item in cartStore.items" :key="item.product.id" class="items-in-cart">
           <CartItem
               v-model="item.count"
@@ -31,7 +31,7 @@ const active = ref(false);
 
         </ul>
         <div class="flex justify-end text-2xl mb-5">
-          Total: <strong>$40</strong>
+          Total: <strong>{{cartStore.cartTotals}}</strong>
         </div>
         <div class="flex justify-end">
           <AppButton @click="cartStore.$reset()" class="secondary mr-2">Clear Cart</AppButton>
