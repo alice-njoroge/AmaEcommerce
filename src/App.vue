@@ -2,7 +2,7 @@
 import TheHeader from "@/components/TheHeader.vue";
 import ProductCard from "@/components/ProductCard.vue";
 import {useProductsStore} from "@/stores/ProductsStore";
-import {useCartStore} from "@/stores/cartStore"
+import {useCartStore} from "@/stores/CartStore"
 
 import {onMounted} from "vue";
 

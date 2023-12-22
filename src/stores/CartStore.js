@@ -1,6 +1,6 @@
 import {defineStore} from "pinia";
 import {computed, ref} from "vue";
-
+import {useAuthStore} from "@/stores/AuthStore";
 
 export const useCartStore = defineStore('cartStore',
     () => {
@@ -43,9 +43,12 @@ export const useCartStore = defineStore('cartStore',
             if (index !== -1) {
                 items.value[index].count = newCount;
             }
-
-
         }
-        return {addToCart, items, $reset, totalItems, cartTotals, removeItem, updateCount}
+        const checkoutUser = ()=>{
+            const authStore = useAuthStore();
+            console.log(`${authStore.user} bought some ${cartTotals.value} items`)
+        }
+
+        return {addToCart, items, $reset, totalItems, cartTotals, removeItem, updateCount, checkoutUser}
 
     })
