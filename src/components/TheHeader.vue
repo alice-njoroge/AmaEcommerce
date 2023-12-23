@@ -8,7 +8,9 @@ import {mapState} from "pinia";
 export default {
   components: {CartWidget},
   computed: {
-    ...mapState(useAuthStore, ["user"])
+    ...mapState(useAuthStore, {
+      user: store => `hello ${store.user}`
+    })
 
   }
 
