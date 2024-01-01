@@ -12,7 +12,8 @@
     "@fortawesome/vue-fontawesome": "^3.0.0-5",
     "lodash": "^4.17.21",
     "pinia": "^2.1.7",
-    "vue": "^3.2.16"
+    "vue": "^3.2.16",
+    "vue-router": "^4.2.5"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^1.9.3",
