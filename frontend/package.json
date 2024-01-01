@@ -12,6 +12,7 @@
     "@fortawesome/vue-fontawesome": "^3.0.0-5",
     "lodash": "^4.17.21",
     "pinia": "^2.1.7",
+    "vee-validate": "^4.12.4",
     "vue": "^3.2.16",
     "vue-router": "^4.2.5"
   },
