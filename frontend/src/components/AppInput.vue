@@ -24,7 +24,7 @@ const props = defineProps({
           id="name"
           :value="modelValue"
           v-bind="$attrs"
-          :name=props.name
+          :name="props.name"
           class="mt-1 block w-full px-2 py-2 border border-gray-300 rounded-md hover:border-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 sm:text-sm"
           @input=" emit('update:modelValue', $event.target.value)">
     </div>
