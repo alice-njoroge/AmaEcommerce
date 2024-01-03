@@ -8,7 +8,10 @@ export const useProductsStore = defineStore('ProductsStore',
         const getProducts = async () => {
             products.value = (await import("@/data/products.json")).default
         }
+        const saveProducts = async (formValues ) =>{
 
-        return {products, getProducts}
+        }
+
+        return {products, getProducts, saveProducts}
 
     })

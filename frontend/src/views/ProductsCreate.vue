@@ -22,16 +22,13 @@ const schema = object({
 const handleClick = () => {
   router.back();
 }
-const handleSubmit = validate => {
-  validate().then(
-      async response => {
-        if (!response.valid) {
-          console.log("error")
-        } else
-          console.log("success")
-      }
-  )
-  console.log("clicked", toRaw(form.value))
+const handleSubmit = async validate => {
+   const response = await validate();
+  if (!response.valid) {
+    console.log("error")
+  }
+  console.log("success", toRaw(form.value));
+
 }
 
 </script>
@@ -43,7 +40,6 @@ const handleSubmit = validate => {
       <app-button @click="handleClick"> Back</app-button>
     </div>
     <veeForm v-slot="{ validate }" class="space-y-4" :validation-schema="schema">
-      <div>
         <veeField
             v-slot="{field, errors, errorMessage}"
             v-model="form.name"
@@ -66,7 +62,6 @@ const handleSubmit = validate => {
             </p>
           </div>
         </veeField>
-      </div>
 
       <veeField
           v-slot="{field, errors, errorMessage}"
