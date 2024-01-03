@@ -9,6 +9,7 @@ use Symfony\Component\Routing\Attribute\Route;
 
 class ProductsController extends AbstractController
 {
+    private ProductRepository $productRepository;
     public function __construct(ProductRepository $productRepository)
     {
         $this->productRepository = $productRepository;
@@ -18,6 +19,6 @@ class ProductsController extends AbstractController
     public function index(): JsonResponse
     {
         $products =  $this->productRepository->findAll();
-        return $this->json($products, 200);
+        return $this->json(json_encode($products));
     }
 }
