@@ -16,7 +16,7 @@ const count = ref(0);
 </script>
 <template>
   <li class="card">
-    <img :src="`/images/${product.image}`" class="mb-3" width="300" alt=""/>
+    <img :src="`/images/${product.imageURL}`" class="mb-3" width="300" alt=""/>
     <div>
       {{ product.name }} - <span class="text-green-500">${{ product.price }}</span>
       <div class="text-center m-4">

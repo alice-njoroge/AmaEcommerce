@@ -66,6 +66,10 @@
       <excludeFolder url="file://$MODULE_DIR$/backend/vendor/symfony/var-dumper" />
       <excludeFolder url="file://$MODULE_DIR$/backend/vendor/symfony/var-exporter" />
       <excludeFolder url="file://$MODULE_DIR$/backend/vendor/symfony/yaml" />
+      <excludeFolder url="file://$MODULE_DIR$/backend/vendor/doctrine/data-fixtures" />
+      <excludeFolder url="file://$MODULE_DIR$/backend/vendor/doctrine/doctrine-fixtures-bundle" />
+      <excludeFolder url="file://$MODULE_DIR$/backend/vendor/nelmio/cors-bundle" />
+      <excludeFolder url="file://$MODULE_DIR$/backend/vendor/fakerphp/faker" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\ProductRepository;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use JsonSerializable;
 
@@ -31,6 +32,9 @@ class Product implements JsonSerializable
 
     #[ORM\Column]
     private ?bool $status = null;
+
+    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
+    private ?string $price = null;
 
     public function getId(): ?int
     {
@@ -114,7 +118,20 @@ class Product implements JsonSerializable
             'name' => $this->getName(),
             'quantity'=> $this->getQuantity(),
             'imageURL'=> $this->getImageURL(),
+            'price'=> $this->getPrice(),
 
             ];
+    }
+
+    public function getPrice(): ?string
+    {
+        return $this->price;
+    }
+
+    public function setPrice(string $price): static
+    {
+        $this->price = $price;
+
+        return $this;
     }
 }

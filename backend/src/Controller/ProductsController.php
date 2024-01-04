@@ -19,6 +19,6 @@ class ProductsController extends AbstractController
     public function index(): JsonResponse
     {
         $products =  $this->productRepository->findAll();
-        return $this->json(json_encode($products));
+        return $this->json($products);
     }
 }
