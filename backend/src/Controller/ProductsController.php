@@ -5,11 +5,13 @@ namespace App\Controller;
 use App\Repository\ProductRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Attribute\Route;
 
 class ProductsController extends AbstractController
 {
     private ProductRepository $productRepository;
+
     public function __construct(ProductRepository $productRepository)
     {
         $this->productRepository = $productRepository;
@@ -18,7 +20,15 @@ class ProductsController extends AbstractController
     #[Route('/products', name: 'app_products')]
     public function index(): JsonResponse
     {
-        $products =  $this->productRepository->findAll();
+        $products = $this->productRepository->findAll();
         return $this->json($products);
+    }
+
+    #[Route('/products/create', name: 'save_products', methods: ['POST'])]
+    public function save(Request $request)
+    {
+        $data = $request->toArray();
+        var_dump($data);
+
     }
 }

@@ -10,10 +10,16 @@ export const useProductsStore = defineStore('ProductsStore',
             products.value = (await ofetch('http://127.0.0.1:8000/products'));
             console.log('products',products.value)
         }
-        // const saveProducts = async (formValues ) =>{
-        //
-        // }
+        const saveProducts = async (formValues ) =>{
+            const response = await ofetch('http://127.0.0.1:8000/products/create', {
+                method: 'POST',
+                body: formValues
+            })
 
-        return {products, getProducts}
+            console.log('response', response)
+
+        }
+
+        return {products, getProducts, saveProducts}
 
     })

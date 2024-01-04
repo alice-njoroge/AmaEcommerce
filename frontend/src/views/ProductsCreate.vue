@@ -6,8 +6,11 @@ import {useRouter} from "vue-router";
 import {ref, toRaw} from "vue";
 import {Form, Field} from 'vee-validate';
 import {number, object, string} from 'yup';
+import {useProductsStore} from "@/stores/ProductsStore";
 
 const router = useRouter();
+const productStore = useProductsStore();
+
 const form = ref({
   name: '',
   quantity: 0
@@ -28,6 +31,7 @@ const handleSubmit = async validate => {
     console.log("error")
   }
   console.log("success", toRaw(form.value));
+  await productStore.saveProducts(form.value);
 
 }
 
