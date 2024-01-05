@@ -6,6 +6,7 @@ use App\Repository\ProductRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use JsonSerializable;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: ProductRepository::class)]
 class Product implements JsonSerializable
@@ -15,12 +16,15 @@ class Product implements JsonSerializable
     #[ORM\Column]
     private ?int $id = null;
 
+    #[Assert\NotBlank]
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
+    #[Assert\NotBlank]
     #[ORM\Column]
     private ?int $quantity = null;
 
+    #[Assert\NotBlank]
     #[ORM\Column(length: 255)]
     private ?string $imageURL = null;
 
@@ -119,6 +123,9 @@ class Product implements JsonSerializable
             'quantity'=> $this->getQuantity(),
             'imageURL'=> $this->getImageURL(),
             'price'=> $this->getPrice(),
+            'createdAt' => $this->getCreatedAt(),
+            'updatedAt'=> $this->getUpdatedAt(),
+            'status'=> $this->getSt
 
             ];
     }

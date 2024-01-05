@@ -20,13 +20,14 @@ const veeField = Field;
 
 const schema = object({
   name: string().required('Name is required'),
-  quantity: number().required('Quantity is required')
+  quantity: number().positive().required('Quantity is required')
 });
 const handleClick = () => {
   router.back();
 }
 const handleSubmit = async validate => {
    const response = await validate();
+  parseInt(form.value.quantity);
   if (!response.valid) {
     console.log("error")
   }
@@ -69,19 +70,27 @@ const handleSubmit = async validate => {
 
       <veeField
           v-slot="{field, errors, errorMessage}"
-          v-model:number="form.quantity"
-          as="div"
+          v-model="form.quantity"
           name="quantity"
-      >
-        <app-input
-            type="number"
+          as="div">
+        <label for="name" class="block text-lg font-medium text-gray-700">Quantity</label>
+        <input
             v-bind="field"
+            id="name"
+            type="number"
+            class="mt-1 block w-full px-2 py-2 border border-gray-300 rounded-md hover:border-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 sm:text-sm"
             :class="{'border-red-500': !!errors.length}"
-        />
-        <div v-if="errors.length" class="text-red-500">
-          <p>{{ errorMessage }}</p>
+        >
+        <div
+            v-if="errors.length"
+            class="text-red-500"
+        >
+          <p>
+            {{ errorMessage }}
+          </p>
         </div>
       </veeField>
+
       <div class="flex justify-end flex-wrap">
         <app-button class="secondary mr-2"> Cancel</app-button>
         <app-button class="primary" @click.prevent="handleSubmit(validate)"> Submit</app-button>

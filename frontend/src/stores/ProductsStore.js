@@ -1,6 +1,6 @@
 import {defineStore} from "pinia";
 import {ref} from "vue";
-import { ofetch } from "ofetch";
+import {ofetch} from "ofetch";
 
 
 export const useProductsStore = defineStore('ProductsStore',
@@ -8,9 +8,9 @@ export const useProductsStore = defineStore('ProductsStore',
         const products = ref([]);
         const getProducts = async () => {
             products.value = (await ofetch('http://127.0.0.1:8000/products'));
-            console.log('products',products.value)
+            console.log('products', products.value)
         }
-        const saveProducts = async (formValues ) =>{
+        const saveProducts = async (formValues) => {
             const response = await ofetch('http://127.0.0.1:8000/products/create', {
                 method: 'POST',
                 body: formValues
