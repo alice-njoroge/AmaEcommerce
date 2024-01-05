@@ -27,7 +27,6 @@ const handleClick = () => {
 }
 const handleSubmit = async validate => {
    const response = await validate();
-  parseInt(form.value.quantity);
   if (!response.valid) {
     console.log("error")
   }

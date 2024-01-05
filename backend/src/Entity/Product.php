@@ -125,7 +125,7 @@ class Product implements JsonSerializable
             'price'=> $this->getPrice(),
             'createdAt' => $this->getCreatedAt(),
             'updatedAt'=> $this->getUpdatedAt(),
-            'status'=> $this->getSt
+            'status'=> $this->isStatus()
 
             ];
     }
