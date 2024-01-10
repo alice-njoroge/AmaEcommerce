@@ -6,7 +6,7 @@ const router = createRouter({
     routes: [
         {path:'/', name:'ProductsList', component:ProductsList},
         {path:'/create', name:'ProductsCreate', component:()=>import('@/views/ProductsCreate.vue')},
-
+        {path:'/register', name:'RegisterUser', component:()=> import('@/views/Auth/RegisterUser.vue')},
     ],
     linkActiveClass: 'active'
 })
