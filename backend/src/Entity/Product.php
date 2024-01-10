@@ -41,7 +41,7 @@ class Product implements JsonSerializable
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
     private ?string $price = null;
 
-    #[ORM\ManyToOne(inversedBy: 'product')]
+    #[ORM\ManyToOne]
     private ?ProductCategory $productCategory = null;
 
     public function getId(): ?int
