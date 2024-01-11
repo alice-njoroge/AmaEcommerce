@@ -79,10 +79,12 @@ import {ref} from 'vue';
 import {Form, Field} from 'vee-validate';
 import {object, string} from "yup";
 import {useAuthStore} from "@/stores/AuthStore";
+import {useRouter} from "vue-router";
 
 const authStore = useAuthStore();
 const veeForm = Form;
 const veeField = Field;
+const router = useRouter();
 
 const form = ref({
   email: '',
@@ -99,6 +101,7 @@ const handleSubmit = async validate => {
     console.log("error", response);
   }
   await authStore.userLogin(form.value);
+  await router.push({name: 'ProductsList'})
 
 
 }
