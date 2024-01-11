@@ -1,7 +1,6 @@
 <script setup>
 
 import AppButton from "@/components/AppButton.vue";
-import AppInput from "@/components/AppInput.vue";
 import {useRouter} from "vue-router";
 import {ref, toRaw} from "vue";
 import {Form, Field} from 'vee-validate';

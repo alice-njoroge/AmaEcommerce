@@ -11,6 +11,9 @@ export const useAuthStore = defineStore('AuthStore', {
     actions: {
         visitTwitterProfile() {
             window.open(`https://twitter.com/${this.user}`, "_blank")
+        },
+        registerUser(formValues){
+            console.log(`User registered successfully`,  formValues);
         }
 
     }
