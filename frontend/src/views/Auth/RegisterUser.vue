@@ -128,7 +128,7 @@ const handleSubmit = async validate => {
   if (!response.valid){
     console.log("error", response);
   }
-  authStore.registerUser(form.value);
+  await authStore.registerUser(form.value);
 
 
 }
