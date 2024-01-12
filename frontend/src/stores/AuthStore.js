@@ -1,5 +1,6 @@
 import {defineStore} from "pinia";
 import useApi from "@/composables/useApi";
+import router from "@/routes";
 
 const api = useApi();
 
@@ -36,6 +37,10 @@ export const useAuthStore = defineStore('AuthStore', {
             this.isLoggedIn = true;
 
 
+        },
+         async userLogout(){
+             await api('/logout');
+             this.isLoggedIn = false;
         }
 
     }

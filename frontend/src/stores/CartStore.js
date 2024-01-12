@@ -46,7 +46,7 @@ export const useCartStore = defineStore('cartStore',
         }
         const checkoutUser = ()=>{
             const authStore = useAuthStore();
-            console.log(`${authStore.user} bought some ${cartTotals.value} items`)
+            console.log(`${authStore.user} bought some ${cartTotals.value} items -- BILLING LOADING...`)
         }
 
         return {addToCart, items, $reset, totalItems, cartTotals, removeItem, updateCount, checkoutUser}
