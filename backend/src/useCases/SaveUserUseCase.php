@@ -5,6 +5,9 @@ namespace App\useCases;
 use App\Entity\User;
 use App\Repository\UserRepository;
 use Doctrine\ORM\NonUniqueResultException;
+use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Email;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Validator\Exception\ValidatorException;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
@@ -14,17 +17,25 @@ class SaveUserUseCase
     private UserRepository $userRepository;
     private ValidatorInterface $validator;
     private UserPasswordHasherInterface $passwordHash;
+    private MailerInterface $mailer;
 
-    public function __construct(UserRepository $userRepository, ValidatorInterface $validator, UserPasswordHasherInterface $passwordHash)
+    public function __construct(
+        UserRepository              $userRepository,
+        ValidatorInterface          $validator,
+        UserPasswordHasherInterface $passwordHash,
+        MailerInterface             $mailer
+    )
     {
         $this->userRepository = $userRepository;
         $this->validator = $validator;
         $this->passwordHash = $passwordHash;
+        $this->mailer = $mailer;
     }
 
 
     /**
      * @throws NonUniqueResultException
+     * @throws TransportExceptionInterface
      */
     public function execute($data): User
     {
@@ -48,8 +59,16 @@ class SaveUserUseCase
         if (count($errors) > 0) {
             throw new ValidatorException("you need to learn error handling and throwing exceptions in symfony");
         }
+        $this->userRepository->save($user);
 
-        return $this->userRepository->save($user);
+        $email = new Email();
+        $email->from('noreply@example.com');
+        $email->to($user->getEmail());
+        $email->subject('Welcome to our Pineapple Stand');
+        $email->text('Thank you for signing up!');
+        $this->mailer->send($email);
+
+        return $user;
 
     }
 
