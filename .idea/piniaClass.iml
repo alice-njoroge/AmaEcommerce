@@ -80,6 +80,9 @@
       <excludeFolder url="file://$MODULE_DIR$/backend/vendor/symfony/mime" />
       <excludeFolder url="file://$MODULE_DIR$/backend/vendor/symfony/polyfill-intl-idn" />
       <excludeFolder url="file://$MODULE_DIR$/backend/vendor/symfony/serializer" />
+      <excludeFolder url="file://$MODULE_DIR$/backend/vendor/symfony/twig-bridge" />
+      <excludeFolder url="file://$MODULE_DIR$/backend/vendor/symfony/twig-bundle" />
+      <excludeFolder url="file://$MODULE_DIR$/backend/vendor/twig/twig" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

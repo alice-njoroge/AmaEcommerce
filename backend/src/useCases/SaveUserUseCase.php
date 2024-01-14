@@ -4,7 +4,9 @@ namespace App\useCases;
 
 use App\Entity\User;
 use App\Repository\UserRepository;
+use DateTime;
 use Doctrine\ORM\NonUniqueResultException;
+use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Email;
@@ -61,11 +63,16 @@ class SaveUserUseCase
         }
         $this->userRepository->save($user);
 
-        $email = new Email();
+        $email = new TemplatedEmail();
         $email->from('noreply@example.com');
         $email->to($user->getEmail());
         $email->subject('Welcome to our Pineapple Stand');
         $email->text('Thank you for signing up!');
+        $email->htmlTemplate('emails/register.html.twig');
+        $email->context([
+            'emailAddress' => $user->getEmail(),
+        ]);
+
         $this->mailer->send($email);
 
         return $user;
