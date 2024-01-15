@@ -8,13 +8,7 @@ const router = createRouter({
         {
             path: '/',
             name: 'ProductsList',
-            component: ProductsList,
-            beforeEnter: (to, from) => {
-                const authenticated = () => useAuthStore().isLoggedIn;
-                if (!authenticated()) {
-                    return {name: 'LoginUser'}
-                }
-            }
+            component: ProductsList
         },
         {
             path: '/create',
@@ -33,6 +27,14 @@ const router = createRouter({
         },
     ],
     linkActiveClass: 'active'
+})
+
+//adding global guards
+router.beforeEach((to, from)=>{
+    const authenticated = () => useAuthStore().isLoggedIn;
+    if ((to.name !== 'LoginUser' && !authenticated()) && to.name !== 'RegisterUser') {
+      return {name: 'LoginUser'};
+    }
 })
 
 
