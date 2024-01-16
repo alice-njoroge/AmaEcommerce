@@ -5,6 +5,7 @@ import router from "@/routes";
 
 // Icons and Styles
 import FontAwesomePlugin from "./plugins/FontAwesome";
+import "izitoast/dist/css/iziToast.min.css"
 import "./assets/main.pcss";
 
 // App Wide Components

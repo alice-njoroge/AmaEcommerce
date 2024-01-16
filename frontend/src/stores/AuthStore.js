@@ -1,6 +1,6 @@
 import {defineStore} from "pinia";
 import useApi from "@/composables/useApi";
-import router from "@/routes";
+import izitoast from "izitoast";
 
 const api = useApi();
 
@@ -18,26 +18,38 @@ export const useAuthStore = defineStore('AuthStore', {
             window.open(`https://twitter.com/${this.user}`, "_blank")
         },
         async registerUser(formValues){
-            console.log(`User registered successfully`,  formValues);
+               try {
+                   const response = await api('http://127.0.0.1:8000/register', {
+                       method: 'POST',
+                       body: formValues,
+                   })
+                   console.log("response", response);
 
-                const response = await api('http://127.0.0.1:8000/register', {
-                    method: 'POST',
-                    body: formValues,
+               }catch (e) {
+                   console.log("eee", e);
 
-                })
-                console.log("response", response);
+               }
 
         },
         async userLogin(formValues){
-            const response = await api('/login', {
-                method: 'POST',
-                body: formValues,
-            });
-            console.log("response", response);
-            this.isLoggedIn = true;
+            try {
+                const response = await api('/login', {
+                    method: 'POST',
+                    body: formValues,
+                });
+                console.log("response", response);
+                this.isLoggedIn = true;
 
-
+            } catch (e) {
+                console.log(e.data.error)
+                izitoast.error({
+                    position: 'topRight',
+                    title: 'Error',
+                    message: e.data.error
+                })
+            }
         },
+
          async userLogout(){
              await api('/logout');
              this.isLoggedIn = false;
