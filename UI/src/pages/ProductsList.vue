@@ -7,8 +7,8 @@ const router = useRouter();
 import {onMounted} from "vue";
 import {useProductsStore} from "~/stores/ProductsStore.js";
 import {useCartStore} from "~/stores/CartStore.js";
-import AppButton from "~/src/components/AppButton.vue";
-import ProductCard from "~/src/components/ProductCard.vue";
+import AppButton from "~/components/AppButton.vue";
+import ProductCard from "~/components/ProductCard.vue";
 
 const productsStore = useProductsStore();
 const cartStore = useCartStore();
