@@ -2,9 +2,15 @@
 export default defineNuxtConfig({
     srcDir: 'src/',
     devtools: {enabled: false},
+    css: ['~/assets/main.pcss'],
+    postcss: {
+        plugins: {
+            tailwindcss: {},
+            autoprefixer: {},
+        },
+    },
     modules: [
         '@pinia/nuxt',
-        "@nuxtjs/tailwindcss",
         [
             '@vee-validate/nuxt',
             {
