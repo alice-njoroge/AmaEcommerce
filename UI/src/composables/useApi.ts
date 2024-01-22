@@ -1,4 +1,4 @@
-import { ofetch } from 'ofetch';
+import {ofetch} from 'ofetch';
 
 export default function useApi() {
 
@@ -8,6 +8,18 @@ export default function useApi() {
         headers: {
             'Content-Type': 'application/json',
             'Accept': 'application/json'
-        }
+        },
+        async onResponseError({request, response, options}) {
+            // Log error
+            console.log(
+                "[fetch response error]",
+                request,
+                response.status,
+                response.body
+            );
+            if (response.status === 401) {
+                navigateTo('/login')
+            }
+        },
     });
 }

@@ -82,7 +82,8 @@ import {useAuthStore} from "~/stores/AuthStore.js";
 const authStore = useAuthStore();
 
 definePageMeta({
-  layout: 'plain'
+  layout: 'plain',
+  name: 'LoginUser',
 })
 
 const form = ref({
