@@ -22,7 +22,7 @@ class Role
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $description = null;
 
-    #[ORM\ManyToMany(targetEntity: Permission::class, mappedBy: 'role')]
+    #[ORM\ManyToMany(targetEntity: Permission::class, mappedBy: 'roles')]
     private Collection $permissions;
 
     public function __construct()

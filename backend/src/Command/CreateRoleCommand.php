@@ -2,6 +2,7 @@
 
 namespace App\Command;
 
+use App\Entity\Permission;
 use App\Entity\Role;
 use App\Repository\RoleRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -32,16 +33,13 @@ class CreateRoleCommand extends Command
         parent::__construct();
     }
 
-    protected function configure(): void
-    {
-        $this
-            ->addArgument('arg1', InputArgument::OPTIONAL, 'Argument description')
-            ->addOption('option1', null, InputOption::VALUE_NONE, 'Option description');
-    }
-
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $roles = [
+            [
+                "name" => "admin1",
+                "description" => "An admin role will have all system permissionsssss"
+            ],
             [
                 "name" => "admin",
                 "description" => "An admin role will have all system permissions"
@@ -54,12 +52,23 @@ class CreateRoleCommand extends Command
         ];
 
         for ($i = 0; $i < count($roles); $i++) {
+
             $label = $roles[$i]["name"];
             $role = $this->roleRepository->findOneBy(['label' => $label]);
+
+
             if ($role === null) {
                 $role = new Role();
                 $role->setLabel($label);
                 $role->setDescription($roles[$i]["description"]);
+                $this->em->persist($role);
+            }
+            //give all the permissions to role admin
+            if ($role->getLabel() === 'admin') {
+                $permissions = $this->em->getRepository(Permission::class)->findAll();
+                foreach ($permissions as $permission) {
+                    $role->addPermission($permission);
+                }
                 $this->em->persist($role);
             }
         }

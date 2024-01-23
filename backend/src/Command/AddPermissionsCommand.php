@@ -47,6 +47,8 @@ class AddPermissionsCommand extends Command
         ];
 
         foreach ($permissions as $label => $description) {
+            //find if permissions exist before creating them
+            if (!$this->permissionRepository->findOneBy(['label' => $label])) {
                 $permission = new Permission();
 
                 $permission->setLabel($label);
@@ -56,8 +58,10 @@ class AddPermissionsCommand extends Command
             }
             $this->entityManager->flush();
 
-        $output->writeln('Permissions have been added successfully.');
+            $output->writeln('Permissions have been added successfully.');
 
-        return Command::SUCCESS;
+            return Command::SUCCESS;
+        }
     }
 }
+
