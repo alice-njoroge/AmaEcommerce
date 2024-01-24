@@ -41,12 +41,13 @@ class AddUserCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $userExists = $this->userRepository->findOneBy(['email' => 'admin@example.com']);
+
         if (!$userExists) {
             $user = new User();
             $user->setEmail('admin@example.com');
             $user->setPassword($this->passwordHash->hashPassword($user, 'admin123'));
             //find role admin and add it to this user
-            $role = $this->roleRepository->findOneBy(['label' => 'admin']);
+            $role = $this->roleRepository->findOneBy(['label' => 'ROLE_ADMIN']);
             $user->addRole($role);
 
             $this->userRepository->save($user);

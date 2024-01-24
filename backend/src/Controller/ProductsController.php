@@ -23,7 +23,6 @@ class ProductsController extends AbstractController
     }
 
     #[Route('/products', name: 'app_products')]
-    #[IsGranted('IS_AUTHENTICATED_FULLY')]
     public function index(): JsonResponse
     {
         $products = $this->productRepository->findAll();
@@ -33,6 +32,7 @@ class ProductsController extends AbstractController
     /**
      * @throws EntityNotFoundException
      */
+    #[IsGranted('ROLE_ADMIN')]
     #[Route('/products/create', name: 'save_products', methods: ['POST'])]
     public function save(Request $request): JsonResponse
     {

@@ -19,7 +19,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 )]
 class AddPermissionsCommand extends Command
 {
-    private PermissionRepository $permissionRepository;
     private EntityManagerInterface $entityManager;
 
     public function __construct(PermissionRepository $permissionRepository, EntityManagerInterface $entityManager)
@@ -30,12 +29,6 @@ class AddPermissionsCommand extends Command
         parent::__construct();
     }
 
-    protected function configure(): void
-    {
-        $this
-            ->addArgument('arg1', InputArgument::OPTIONAL, 'Argument description')
-            ->addOption('option1', null, InputOption::VALUE_NONE, 'Option description');
-    }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
@@ -48,20 +41,19 @@ class AddPermissionsCommand extends Command
 
         foreach ($permissions as $label => $description) {
             //find if permissions exist before creating them
-            if (!$this->permissionRepository->findOneBy(['label' => $label])) {
-                $permission = new Permission();
+            $permission = new Permission();
 
-                $permission->setLabel($label);
-                $permission->setDescription($description);
+            $permission->setLabel($label);
+            $permission->setDescription($description);
 
-                $this->entityManager->persist($permission);
-            }
-            $this->entityManager->flush();
-
-            $output->writeln('Permissions have been added successfully.');
-
-            return Command::SUCCESS;
+            $this->entityManager->persist($permission);
         }
+        $this->entityManager->flush();
+
+        $output->writeln('Permissions have been added successfully.');
+
+
+        return Command::SUCCESS;
     }
 }
 

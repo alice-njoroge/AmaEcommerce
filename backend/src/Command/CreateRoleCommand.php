@@ -37,11 +37,11 @@ class CreateRoleCommand extends Command
     {
         $roles = [
             [
-                "name" => "admin",
+                "name" => "ROLE_ADMIN",
                 "description" => "An admin role will have all system permissions"
             ],
             [
-                "name" => "user",
+                "name" => "ROLE_USER",
                 "description" => "A user will only shop, see own products and checkout"
             ]
 
@@ -60,7 +60,7 @@ class CreateRoleCommand extends Command
                 $this->em->persist($role);
             }
             //give all the permissions to role admin
-            if ($role->getLabel() === 'admin') {
+            if ($role->getLabel() === 'ROLE_ADMIN') {
                 $permissions = $this->em->getRepository(Permission::class)->findAll();
                 foreach ($permissions as $permission) {
                     $role->addPermission($permission);
@@ -70,7 +70,7 @@ class CreateRoleCommand extends Command
         }
 
         $this->em->flush();
-        $output->writeln('Records Added Successfully :)');
+        $output->writeln('Roles Added Successfully :)');
         return Command::SUCCESS;
     }
 }
