@@ -10,6 +10,7 @@ use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 #[AsCommand(
     name: 'app:add-user',
@@ -20,12 +21,19 @@ class AddUserCommand extends Command
     private EntityManagerInterface $em;
     private UserRepository $userRepository;
     private RoleRepository $roleRepository;
+    private UserPasswordHasherInterface $passwordHash;
 
-    public function __construct(EntityManagerInterface $em, UserRepository $userRepository, RoleRepository $roleRepository)
+    public function __construct(
+        EntityManagerInterface $em,
+        UserRepository $userRepository,
+        RoleRepository $roleRepository,
+        UserPasswordHasherInterface $passwordHash
+    )
     {
         $this->em = $em;
         $this->userRepository = $userRepository;
         $this->roleRepository = $roleRepository;
+        $this->passwordHash = $passwordHash;
         parent::__construct();
     }
 
@@ -36,7 +44,7 @@ class AddUserCommand extends Command
         if (!$userExists) {
             $user = new User();
             $user->setEmail('admin@example.com');
-            $user->setPassword('admin123');
+            $user->setPassword($this->passwordHash->hashPassword($user, 'admin123'));
             //find role admin and add it to this user
             $role = $this->roleRepository->findOneBy(['label' => 'admin']);
             $user->addRole($role);
