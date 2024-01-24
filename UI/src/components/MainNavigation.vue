@@ -19,7 +19,7 @@ export default {
 
     async logout (){
       await this.userLogout();
-      await router.push({path: '/login' })
+      navigateTo('/login')
 
     }
 
@@ -31,12 +31,12 @@ export default {
 <template>
   <header
       class="flex justify-between p-6 mb-10 items-center"
-      style="background-image: url('/images/double-bubble-outline.png')"
+      style="background-image: url('~/assets/images/double-bubble-outline.png')"
   >
     <h1 class="text-4xl text-gray-700 font-bold">The Pineapple Stand</h1>
     <div class="flex justify-between gap-5 font-bold">
       <span @click="visitTwitterProfile">{{ username }}</span>
-      <span @click="logout">Logout </span>
+      <button @click="logout">Logout </button>
       <CartWidget/>
     </div>
   </header>
