@@ -45,6 +45,9 @@ class UserController extends AbstractController
             return $this->json(['message' => 'invalid credentials'], Response::HTTP_UNAUTHORIZED);
         }
 
+        $roles = $user->getRoles();
+        dd($roles);
+
         return $this->json([ 'user'  => $user->getUserIdentifier()]);
 
     }

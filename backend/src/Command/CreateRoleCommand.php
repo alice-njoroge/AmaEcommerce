@@ -37,10 +37,6 @@ class CreateRoleCommand extends Command
     {
         $roles = [
             [
-                "name" => "admin1",
-                "description" => "An admin role will have all system permissionsssss"
-            ],
-            [
                 "name" => "admin",
                 "description" => "An admin role will have all system permissions"
             ],

@@ -62,7 +62,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     public function getUserIdentifier(): string
     {
-        return (string) $this->email;
+        return (string)$this->email;
     }
 
     /**
@@ -113,7 +113,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function getRoles(): array
     {
-        // TODO: Implement getRoles() method.
+        $roles = [];
+        //get all the roles for this user
+        foreach ($this->roles as $role) {
+            assert($role instanceof  Role);
+            //get all permissions in each role
+            foreach ($role->getPermissions() as $permission) {
+                $roles[] = $permission->getLabel();
+            }
+        }
+        // return unique permissions only
+        return array_unique($roles);
+
     }
 
     public function addRole(Role $role): static
