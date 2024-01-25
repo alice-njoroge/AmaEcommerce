@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\User;
 use App\Repository\ProductRepository;
 use App\useCases\SaveProductUseCase;
 use Doctrine\ORM\EntityNotFoundException;
@@ -30,12 +31,18 @@ class ProductsController extends AbstractController
     }
 
     /**
+     * Saves a product.
+     * @param Request $request The HTTP request object.
+     * @return JsonResponse The JSON response indicating the status of the save operation.
      * @throws EntityNotFoundException
      */
-    #[IsGranted('ROLE_ADMIN')]
     #[Route('/products/create', name: 'save_products', methods: ['POST'])]
+    #[IsGranted('ROLE_ADD_PRODUCT')]
     public function save(Request $request): JsonResponse
     {
+        $user = $this->getUser();
+        $roles = $user->getRoles();
+        var_dump($roles);
         $data = $request->toArray();
         $this->saveProductUseCase->execute($data);
 

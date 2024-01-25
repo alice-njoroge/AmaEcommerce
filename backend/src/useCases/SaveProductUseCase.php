@@ -28,7 +28,7 @@ class SaveProductUseCase
         $product = new Product();
         $product->setName($data['name']);
         $product->setQuantity($data['quantity']);
-        $product->setPrice($data['price']);
+        $product->setPrice(10);
         $product->setImageURL($imageURL);
         $product->setCreatedAt(new DateTimeImmutable('now'));
         $product->setStatus(true);

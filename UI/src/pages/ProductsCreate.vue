@@ -25,8 +25,8 @@ const handleSubmit = async validate => {
   if (!response.valid) {
     console.log("error")
   }
-  console.log("success", toRaw(form.value));
   await productStore.saveProducts(form.value);
+  navigateTo('/ProductsList')
 
 }
 
