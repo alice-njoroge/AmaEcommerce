@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Enum\Groupings;
 use App\Repository\ProductRepository;
 use App\useCases\SaveProductUseCase;
 use Doctrine\ORM\EntityNotFoundException;
@@ -11,22 +12,28 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
+use Symfony\Component\Serializer\Exception\ExceptionInterface;
+use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
 class ProductsController extends AbstractController
 {
-    private ProductRepository $productRepository;
-    private SaveProductUseCase $saveProductUseCase;
 
-    public function __construct(ProductRepository $productRepository, SaveProductUseCase $saveProductUseCase)
+    public function __construct(
+        private  readonly ProductRepository $productRepository,
+        private readonly SaveProductUseCase $saveProductUseCase,
+        private readonly NormalizerInterface $normalizer,
+    )
     {
-        $this->productRepository = $productRepository;
-        $this->saveProductUseCase = $saveProductUseCase;
     }
 
+    /**
+     * @throws ExceptionInterface
+     */
     #[Route('/products', name: 'app_products')]
     public function index(): JsonResponse
     {
         $products = $this->productRepository->findAll();
+        $products = $this->normalizer->normalize($products, 'json', ['groups'=> Groupings::PRODUCT_SHOPPING]);
         return $this->json($products);
     }
 

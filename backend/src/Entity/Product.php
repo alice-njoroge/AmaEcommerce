@@ -2,15 +2,16 @@
 
 namespace App\Entity;
 
+use App\Enum\Groupings;
 use App\Repository\ProductRepository;
 use DateTimeImmutable;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-use JsonSerializable;
+use Symfony\Component\Serializer\Attribute\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: ProductRepository::class)]
-class Product implements JsonSerializable
+class Product
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -49,6 +50,7 @@ class Product implements JsonSerializable
         return $this->id;
     }
 
+    #[Groups(Groupings::PRODUCT_SHOPPING)]
     public function getName(): ?string
     {
         return $this->name;
@@ -60,7 +62,7 @@ class Product implements JsonSerializable
 
         return $this;
     }
-
+    #[Groups(Groupings::PRODUCT_SHOPPING)]
     public function getQuantity(): ?int
     {
         return $this->quantity;
@@ -73,6 +75,7 @@ class Product implements JsonSerializable
         return $this;
     }
 
+    #[Groups(Groupings::PRODUCT_SHOPPING)]
     public function getImageURL(): ?string
     {
         return $this->imageURL;
@@ -109,6 +112,7 @@ class Product implements JsonSerializable
         return $this;
     }
 
+    #[Groups(Groupings::PRODUCT_SHOPPING)]
     public function isStatus(): ?bool
     {
         return $this->status;
@@ -120,20 +124,8 @@ class Product implements JsonSerializable
 
         return $this;
     }
-    public function jsonSerialize () : mixed
-    {
-        return[
-            'name' => $this->getName(),
-            'quantity'=> $this->getQuantity(),
-            'imageURL'=> $this->getImageURL(),
-            'price'=> $this->getPrice(),
-            'createdAt' => $this->getCreatedAt(),
-            'updatedAt'=> $this->getUpdatedAt(),
-            'status'=> $this->isStatus()
 
-            ];
-    }
-
+    #[Groups(Groupings::PRODUCT_SHOPPING)]
     public function getPrice(): ?string
     {
         return $this->price;
