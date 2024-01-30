@@ -8,7 +8,7 @@ export const useAuthStore = defineStore('AuthStore', {
     state: () => {
         return {
             user: "Alice",
-            isLoggedIn: true,
+            isLoggedIn:false,
             userRoles: []
         };
     },
@@ -45,8 +45,7 @@ export const useAuthStore = defineStore('AuthStore', {
                 console.log("response", user);
                 this.isLoggedIn = true;
                 this.userRoles = user.roles;
-
-
+                localStorage.setItem('user', JSON.stringify(user));
             } catch (e) {
                 console.log(e.data.error)
             }
@@ -55,6 +54,14 @@ export const useAuthStore = defineStore('AuthStore', {
         async userLogout() {
             await api('/logout');
             this.isLoggedIn = false;
+        },
+
+        setRoles (roles){
+            this.userRoles = roles;
+        },
+
+        setIsLoggedIn (isLoggedIn){
+            this.isLoggedIn = isLoggedIn;
         }
 
     }
