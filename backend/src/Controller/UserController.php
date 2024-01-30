@@ -41,16 +41,47 @@ class UserController extends AbstractController
     #[Route('/login', name: 'user_login', methods: ['POST'])]
     public function loginUser(#[CurrentUser] ?User $user): JsonResponse
     {
-        if (null === $user){
+        if (null === $user) {
             return $this->json(['message' => 'invalid credentials'], Response::HTTP_UNAUTHORIZED);
         }
 
-        return $this->json([ 'user'  => $user->getUserIdentifier()]);
+        return $this->json(['user' => $user->getUserIdentifier()]);
 
     }
+
     #[Route('/logout', name: 'user_logout', methods: ['GET'])]
     public function logout(): Response
     {
         throw new LogicException('This method has no logic - it will be intercepted by the logout key in the firewall.');
     }
+
+    #[Route('/me')]
+    public function me(#[CurrentUser] ?User $user)
+    {
+        if (null === $user) {
+            return $this->json(['message' => 'User not found'], Response::HTTP_NOT_FOUND);
+        }
+
+        $userProfile = $user->getUserProfile();
+        $profileData = [];
+        if (null !== $userProfile) {
+            $profileData = [
+                'name' => $userProfile->getName(),
+                'bio' => $userProfile->getBio(),
+                'website_url' => $userProfile->getWebsiteURL(),
+                'twitter_username' => $userProfile->getTwitterUserName(),
+                'date_of_birth' => $userProfile->getDateOfBirth(),
+            ];
+
+        }
+
+        return $this->json([
+            'id' => $user->getId(),
+            'roles'=> $user->getRoles(),
+            'email' => $user->getEmail(),
+            'userProfile' => $profileData
+        ]);
+
+    }
+
 }

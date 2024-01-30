@@ -18,7 +18,7 @@ export default function useApi() {
                 response.body
             );
             if (response.status === 401) {
-                navigateTo('/login')
+                // navigateTo('/login')
             }
         },
     });

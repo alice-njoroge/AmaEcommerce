@@ -12,7 +12,7 @@ export const useProductsStore = defineStore('ProductsStore',
             console.log('products', products.value)
         }
         const saveProducts = async (formValues) => {
-            const response = await api('/products/create', {
+            const response = await api('admin/products/create', {
                 method: 'POST',
                 body: formValues
             })
