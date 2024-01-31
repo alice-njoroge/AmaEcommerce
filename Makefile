@@ -19,3 +19,7 @@ reset-database:
 	docker compose exec back php bin/console app:add-permissions
 	docker compose exec back php bin/console app:add-role
 	docker compose exec back php bin/console app:add-user
+
+.PHONY: cs-fix #phony name
+cs-fix: # actual command name that will be ran on terminal
+	docker compose exec back composer run cs-fix #the long command that you are shortening

@@ -12,12 +12,10 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
 class ProductsController extends AbstractController
 {
-
     public function __construct(
-        private  readonly ProductRepository $productRepository,
+        private readonly ProductRepository $productRepository,
         private readonly NormalizerInterface $normalizer,
-    )
-    {
+    ) {
     }
 
     /**
@@ -27,8 +25,8 @@ class ProductsController extends AbstractController
     public function index(): JsonResponse
     {
         $products = $this->productRepository->findAll();
-        $products = $this->normalizer->normalize($products, 'json', ['groups'=> Groupings::PRODUCT_SHOPPING]);
+        $products = $this->normalizer->normalize($products, 'json', ['groups' => Groupings::PRODUCT_SHOPPING]);
+
         return $this->json($products);
     }
-
 }

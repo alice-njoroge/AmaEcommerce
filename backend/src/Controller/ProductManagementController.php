@@ -19,8 +19,11 @@ class ProductManagementController extends AbstractController
 
     /**
      * Saves a product.
-     * @param Request $request The HTTP request object.
-     * @return JsonResponse The JSON response indicating the status of the save operation.
+     *
+     * @param Request $request the HTTP request object
+     *
+     * @return JsonResponse the JSON response indicating the status of the save operation
+     *
      * @throws EntityNotFoundException
      */
     #[Route('/products/create', name: 'save_products', methods: ['POST'])]

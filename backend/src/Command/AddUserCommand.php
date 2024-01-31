@@ -28,15 +28,13 @@ class AddUserCommand extends Command
         UserRepository $userRepository,
         RoleRepository $roleRepository,
         UserPasswordHasherInterface $passwordHash
-    )
-    {
+    ) {
         $this->em = $em;
         $this->userRepository = $userRepository;
         $this->roleRepository = $roleRepository;
         $this->passwordHash = $passwordHash;
         parent::__construct();
     }
-
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
@@ -46,16 +44,15 @@ class AddUserCommand extends Command
             $user = new User();
             $user->setEmail('admin@example.com');
             $user->setPassword($this->passwordHash->hashPassword($user, 'admin123'));
-            //find role admin and add it to this user
+            // find role admin and add it to this user
             $role = $this->roleRepository->findOneBy(['label' => 'ROLE_ADMIN']);
             $user->addRole($role);
 
             $this->userRepository->save($user);
 
             $output->writeln('User added successfully!');
-
         }
-        return Command::SUCCESS;
 
+        return Command::SUCCESS;
     }
 }

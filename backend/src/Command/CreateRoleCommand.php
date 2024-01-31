@@ -8,11 +8,8 @@ use App\Repository\RoleRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Style\SymfonyStyle;
 
 #[AsCommand(
     name: 'app:add-role',
@@ -21,7 +18,6 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 )]
 class CreateRoleCommand extends Command
 {
-
     private EntityManagerInterface $em;
     private RoleRepository $roleRepository;
 
@@ -37,30 +33,27 @@ class CreateRoleCommand extends Command
     {
         $roles = [
             [
-                "name" => "ROLE_ADMIN",
-                "description" => "An admin role will have all system permissions"
+                'name' => 'ROLE_ADMIN',
+                'description' => 'An admin role will have all system permissions',
             ],
             [
-                "name" => "ROLE_USER",
-                "description" => "A user will only shop, see own products and checkout"
-            ]
-
+                'name' => 'ROLE_USER',
+                'description' => 'A user will only shop, see own products and checkout',
+            ],
         ];
 
-        for ($i = 0; $i < count($roles); $i++) {
-
-            $label = $roles[$i]["name"];
+        for ($i = 0; $i < count($roles); ++$i) {
+            $label = $roles[$i]['name'];
             $role = $this->roleRepository->findOneBy(['label' => $label]);
 
-
-            if ($role === null) {
+            if (null === $role) {
                 $role = new Role();
                 $role->setLabel($label);
-                $role->setDescription($roles[$i]["description"]);
+                $role->setDescription($roles[$i]['description']);
                 $this->em->persist($role);
             }
-            //give all the permissions to role admin
-            if ($role->getLabel() === 'ROLE_ADMIN') {
+            // give all the permissions to role admin
+            if ('ROLE_ADMIN' === $role->getLabel()) {
                 $permissions = $this->em->getRepository(Permission::class)->findAll();
                 foreach ($permissions as $permission) {
                     $role->addPermission($permission);
@@ -71,6 +64,7 @@ class CreateRoleCommand extends Command
 
         $this->em->flush();
         $output->writeln('Roles Added Successfully :)');
+
         return Command::SUCCESS;
     }
 }

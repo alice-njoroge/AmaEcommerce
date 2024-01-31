@@ -20,7 +20,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 180, unique: true)]
     private ?string $email = null;
 
-
     /**
      * @var string The hashed password
      */
@@ -62,13 +61,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     public function getUserIdentifier(): string
     {
-        return (string)$this->email;
+        return (string) $this->email;
     }
 
     /**
      * @see UserInterface
      */
-
 
     /**
      * @see PasswordAuthenticatedUserInterface
@@ -114,17 +112,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function getRoles(): array
     {
         $roles = [];
-        //get all the roles for this user
+        // get all the roles for this user
         foreach ($this->roles as $role) {
-            assert($role instanceof  Role);
-            //get all permissions in each role
+            assert($role instanceof Role);
+            // get all permissions in each role
             foreach ($role->getPermissions() as $permission) {
                 $roles[] = $permission->getLabel();
             }
         }
+
         // return unique permissions only
         return array_unique($roles);
-
     }
 
     public function addRole(Role $role): static

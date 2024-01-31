@@ -6,7 +6,6 @@ use App\Entity\User;
 use App\useCases\SaveUserUseCase;
 use Doctrine\ORM\NonUniqueResultException;
 use Psr\Log\LoggerInterface;
-use LogicException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -21,7 +20,6 @@ class UserController extends AbstractController
     public function __construct(SaveUserUseCase $saveUserUseCase)
     {
         $this->saveUserUseCase = $saveUserUseCase;
-
     }
 
     /**
@@ -46,13 +44,12 @@ class UserController extends AbstractController
         }
 
         return $this->json(['user' => $user->getUserIdentifier()]);
-
     }
 
     #[Route('/logout', name: 'user_logout', methods: ['GET'])]
     public function logout(): Response
     {
-        throw new LogicException('This method has no logic - it will be intercepted by the logout key in the firewall.');
+        throw new \LogicException('This method has no logic - it will be intercepted by the logout key in the firewall.');
     }
 
     #[Route('/me')]
@@ -72,16 +69,13 @@ class UserController extends AbstractController
                 'twitter_username' => $userProfile->getTwitterUserName(),
                 'date_of_birth' => $userProfile->getDateOfBirth(),
             ];
-
         }
 
         return $this->json([
             'id' => $user->getId(),
-            'roles'=> $user->getRoles(),
+            'roles' => $user->getRoles(),
             'email' => $user->getEmail(),
-            'userProfile' => $profileData
+            'userProfile' => $profileData,
         ]);
-
     }
-
 }

@@ -4,7 +4,6 @@ namespace App\useCases;
 
 use App\Entity\User;
 use App\Repository\UserRepository;
-use DateTime;
 use Doctrine\ORM\NonUniqueResultException;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
@@ -22,18 +21,16 @@ class SaveUserUseCase
     private MailerInterface $mailer;
 
     public function __construct(
-        UserRepository              $userRepository,
-        ValidatorInterface          $validator,
+        UserRepository $userRepository,
+        ValidatorInterface $validator,
         UserPasswordHasherInterface $passwordHash,
-        MailerInterface             $mailer
-    )
-    {
+        MailerInterface $mailer
+    ) {
         $this->userRepository = $userRepository;
         $this->validator = $validator;
         $this->passwordHash = $passwordHash;
         $this->mailer = $mailer;
     }
-
 
     /**
      * @throws NonUniqueResultException
@@ -41,25 +38,25 @@ class SaveUserUseCase
      */
     public function execute($data): User
     {
-        //check if a user with a similar email exists
+        // check if a user with a similar email exists
         $emailExists = $this->userRepository->findOneByEmail($data['email']);
         if ($emailExists) {
-            throw new ValidatorException("Email already exists");
+            throw new ValidatorException('Email already exists');
         }
 
-        //set the data
+        // set the data
         $user = new User();
         $user->setEmail($data['email']);
-        //checking again if passwords match
+        // checking again if passwords match
         if ($data['password'] !== $data['confirmPassword']) {
-            throw new ValidatorException("Passwords do not match");
+            throw new ValidatorException('Passwords do not match');
         }
-        //hash the passwords
+        // hash the passwords
         $user->setPassword($this->passwordHash->hashPassword($user, $data['password']));
 
         $errors = $this->validator->validate($user);
         if (count($errors) > 0) {
-            throw new ValidatorException("you need to learn error handling and throwing exceptions in symfony");
+            throw new ValidatorException('you need to learn error handling and throwing exceptions in symfony');
         }
         $this->userRepository->save($user);
 
@@ -76,7 +73,5 @@ class SaveUserUseCase
         $this->mailer->send($email);
 
         return $user;
-
     }
-
 }
