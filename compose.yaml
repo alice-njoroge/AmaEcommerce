@@ -19,6 +19,19 @@ services:
       - traefik.http.routers.traefik_dashboard_router.service=traefik_dashboard_service
       - traefik.http.services.traefik_dashboard_service.loadbalancer.server.port=8080
 
+  webApp:
+    image: thecodingmachine/nodejs:v2-18-bullseye-build
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.webapp_router.rule=Host(`$DOMAIN`)
+      - traefik.http.routers.webapp_router.service=webapp_service
+      - traefik.http.services.webapp_service.loadbalancer.server.port=3000
+    command: npm run dev
+    environment:
+      STARTUP_COMMAND_1: "npm install"
+    volumes:
+      - ./UI:/usr/src/app
+
   back:
     image: thecodingmachine/php:8.3-v4-apache
     labels:
