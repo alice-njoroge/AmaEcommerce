@@ -2,6 +2,53 @@ version: '3'
 
 services:
   ##> doctrine/doctrine-bundle ###
+  traefik:
+    image: traefik:2.10
+    command:
+      - --providers.docker
+      - --providers.docker.exposedByDefault=false
+      - --api.dashboard=true
+      - --api.insecure=true
+    ports: #exposing traefik through port 80
+      - "80:80"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    labels: # the real reason we are adding this guy! so that we don't have to write 127.0.0... so old sch!
+      - traefik.enable=true
+      - traefik.http.routers.traefik_dashboard_router.rule=Host(`traefik.$DOMAIN`)
+      - traefik.http.routers.traefik_dashboard_router.service=traefik_dashboard_service
+      - traefik.http.services.traefik_dashboard_service.loadbalancer.server.port=8080
+
+  back:
+    image: thecodingmachine/php:8.3-v4-apache
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.api_router.rule=Host(`$API_SUBDOMAIN.$DOMAIN`)
+    environment:
+      APACHE_DOCUMENT_ROOT: "public/"
+      PHP_EXTENSION_XDEBUG: "1"
+      PHP_EXTENSION_REDIS: "1"
+      PHP_EXTENSION_INTL: "1"
+      PHP_EXTENSION_GD: "1"
+      PHP_INI_MEMORY_LIMIT: "4G"
+      PHP_INI_UPLOAD_MAX_FILESIZE: "25M"
+      PHP_INI_POST_MAX_SIZE: "25M"
+      PHP_INI_MAX_EXECUTION_TIME: "300"
+      #STARTUP_COMMAND_1: "sleep 5; composer install"
+      #STARTUP_COMMAND_2: "php bin/console doctrine:migrations:migrate -n --allow-no-migration"
+      STARTUP_COMMAND_4: "php bin/console cache:clear --no-warmup"
+
+      #Application environments
+      MAILER_DSN: "$MAILER_DSN"
+      DATABASE_URL: "$DATABASE_URL"
+      CORS_ALLOW_ORIGIN: "$CORS_ALLOW_ORIGIN"
+      APP_ENV: "$APP_ENV"
+      APP_SECRET: "$APP_SECRET"
+    volumes:
+      - ./backend:/var/www/html
+    depends_on:
+      - database
+
   database:
     image: mariadb:11.2.2
     environment:
