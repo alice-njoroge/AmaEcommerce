@@ -21,8 +21,7 @@ class ProductManagementController extends AbstractController
         private readonly SaveProductUseCase $saveProductUseCase,
         private readonly ProductRepository $productRepository,
         private readonly NormalizerInterface $normalizer,
-    ) {
-    }
+    ) {}
 
     /**
      * @throws ExceptionInterface

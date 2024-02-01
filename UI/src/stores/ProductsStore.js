@@ -1,6 +1,5 @@
 import {defineStore} from "pinia";
 import {ref} from "vue";
-import {ofetch} from "ofetch";
 import useApi from "@/composables/useApi";
 const api = useApi();
 
