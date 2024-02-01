@@ -44,12 +44,13 @@ class Product
     #[ORM\ManyToOne]
     private ?ProductCategory $productCategory = null;
 
+    #[Groups([Groupings::PRODUCT_SHOPPING, Groupings::PRODUCT_MANAGEMENT])]
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    #[Groups(Groupings::PRODUCT_SHOPPING)]
+    #[Groups([Groupings::PRODUCT_SHOPPING, Groupings::PRODUCT_MANAGEMENT])]
     public function getName(): ?string
     {
         return $this->name;
@@ -62,7 +63,7 @@ class Product
         return $this;
     }
 
-    #[Groups(Groupings::PRODUCT_SHOPPING)]
+    #[Groups([Groupings::PRODUCT_SHOPPING, Groupings::PRODUCT_MANAGEMENT])]
     public function getQuantity(): ?int
     {
         return $this->quantity;
@@ -75,7 +76,7 @@ class Product
         return $this;
     }
 
-    #[Groups(Groupings::PRODUCT_SHOPPING)]
+    #[Groups([Groupings::PRODUCT_SHOPPING, Groupings::PRODUCT_MANAGEMENT])]
     public function getImageURL(): ?string
     {
         return $this->imageURL;
@@ -88,6 +89,7 @@ class Product
         return $this;
     }
 
+    #[Groups([Groupings::PRODUCT_MANAGEMENT])]
     public function getCreatedAt(): ?\DateTimeImmutable
     {
         return $this->createdAt;
@@ -100,6 +102,7 @@ class Product
         return $this;
     }
 
+    #[Groups([Groupings::PRODUCT_MANAGEMENT])]
     public function getUpdatedAt(): ?\DateTimeImmutable
     {
         return $this->updatedAt;
@@ -112,7 +115,7 @@ class Product
         return $this;
     }
 
-    #[Groups(Groupings::PRODUCT_SHOPPING)]
+    #[Groups([Groupings::PRODUCT_MANAGEMENT])]
     public function isStatus(): ?bool
     {
         return $this->status;
@@ -125,7 +128,7 @@ class Product
         return $this;
     }
 
-    #[Groups(Groupings::PRODUCT_SHOPPING)]
+    #[Groups([Groupings::PRODUCT_SHOPPING, Groupings::PRODUCT_MANAGEMENT])]
     public function getPrice(): ?string
     {
         return $this->price;
@@ -138,6 +141,7 @@ class Product
         return $this;
     }
 
+    #[Groups([Groupings::PRODUCT_SHOPPING, Groupings::PRODUCT_MANAGEMENT])]
     public function getProductCategory(): ?ProductCategory
     {
         return $this->productCategory;

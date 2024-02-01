@@ -1,10 +1,10 @@
 <script setup lang="ts">
 
-import ProductsList from "~/pages/ProductsList.vue";
 </script>
 
 <template>
-<products-list/>
+  <p> This is an admin page </p>
+
 </template>
 
 <style scoped>

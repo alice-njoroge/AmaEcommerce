@@ -21,10 +21,12 @@ class ProductsController extends AbstractController
     /**
      * @throws ExceptionInterface
      */
-    #[Route('/products', name: 'app_products')]
+    #[Route('/products', name: 'app_products', methods: ['GET'])]
     public function index(): JsonResponse
     {
-        $products = $this->productRepository->findAll();
+        $products = $this->productRepository->findBy(
+            ['status' => true]
+        );
         $products = $this->normalizer->normalize($products, 'json', ['groups' => Groupings::PRODUCT_SHOPPING]);
 
         return $this->json($products);
