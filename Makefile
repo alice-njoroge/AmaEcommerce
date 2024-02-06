@@ -1,6 +1,7 @@
 .PHONY: up
 up:
 	docker compose up -d
+	docker compose logs -f
 
 .PHONY: down
 down:
@@ -23,3 +24,15 @@ reset-database:
 .PHONY: cs-fix #phony name
 cs-fix: # actual command name that will be ran on terminal
 	docker compose exec back composer run cs-fix #the long command that you are shortening
+
+.PHONY: blogs
+blogs:
+	docker compose exec back tail -f /var/www/html/var/log/dev.log
+
+.PHONY: bbash
+bbash:
+	docker compose exec back bash
+
+.PHONY: wbash
+wbash:
+	docker compose exec webApp bash
