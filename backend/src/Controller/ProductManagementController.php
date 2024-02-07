@@ -27,6 +27,7 @@ class ProductManagementController extends AbstractController
      * @throws ExceptionInterface
      */
     #[Route('/products', name: 'admin_get_products', methods: ['GET'])]
+    #[IsGranted('ROLE_EDIT_PRODUCT')]
     public function index(): JsonResponse
     {
         $AllProducts = $this->productRepository->findAll();
@@ -39,7 +40,7 @@ class ProductManagementController extends AbstractController
                 'imageURL' => $product->getImageURL(),
                 'createdAt' => $product->getCreatedAt()->format('d,m,Y'),
                 'updatedAt' => $product->getUpdatedAt() ? $product->getUpdatedAt()->format('d, M, Y') : null,
-                'status' => true === $product->isStatus() ? 'Active' : 'Inactive',
+                'status' => $product->isStatus(),
                 'price' => $product->getPrice(),
                 'productCategory' => $product->getProductCategory(),
             ];
@@ -47,6 +48,36 @@ class ProductManagementController extends AbstractController
         $products = $this->normalizer->normalize($products, 'json', ['groups' => Groupings::PRODUCT_MANAGEMENT]);
 
         return $this->json($products);
+    }
+
+    /**
+     * @throws ExceptionInterface
+     */
+    #[Route('/products/{id}', name: 'admin_get_product', methods: ['GET'])]
+    #[IsGranted('ROLE_EDIT_PRODUCT')]
+    public function getProduct(int $id): JsonResponse
+    {
+        $product = $this->productRepository->find($id);
+
+        if (!$product) {
+            throw $this->NotFoundHttpException('Product not found');
+        }
+
+        $productData = [
+            'id' => $product->getId(),
+            'name' => $product->getName(),
+            'quantity' => $product->getQuantity(),
+            'imageURL' => $product->getImageURL(),
+            'createdAt' => $product->getCreatedAt()->format('d,m,Y'),
+            'updatedAt' => $product->getUpdatedAt() ? $product->getUpdatedAt()->format('d, M, Y') : null,
+            'status' => $product->isStatus(),
+            'price' => $product->getPrice(),
+            'productCategory' => $product->getProductCategory(),
+        ];
+
+        $productData = $this->normalizer->normalize($productData, 'json', ['groups' => Groupings::PRODUCT_MANAGEMENT]);
+
+        return $this->json($productData);
     }
 
     /**

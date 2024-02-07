@@ -4,9 +4,14 @@ const api = useApi();
 
 export const useAdminProducts = defineStore('adminProducts', {
     state: () => ({
-        products: []
+        products: [],
+        product: null,
     }),
-    getters: {},
+    getters: {
+        getProduct(){
+            return this.product;
+        }
+    },
     actions: {
         async getProducts() {
             try {
@@ -14,6 +19,15 @@ export const useAdminProducts = defineStore('adminProducts', {
                 console.log(this.products);
             } catch (e) {
                 console.log( e.data)
+            }
+        },
+        async fetchProduct(id){
+            try {
+                this.product = await api(`/admin/products/${id}`);
+                console.log(this.product);
+
+            } catch (e) {
+                console.log(e.data);
             }
         }
     }

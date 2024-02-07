@@ -15,8 +15,7 @@ class ProductsController extends AbstractController
     public function __construct(
         private readonly ProductRepository $productRepository,
         private readonly NormalizerInterface $normalizer,
-    ) {
-    }
+    ) {}
 
     /**
      * @throws ExceptionInterface
