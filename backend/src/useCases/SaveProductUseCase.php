@@ -19,19 +19,24 @@ class SaveProductUseCase
     }
 
     /**
+     * @param mixed $data
+     *
      * @throws EntityNotFoundException
      */
-    public function execute($data): Product
+    public function execute(array $data, string $id): Product
     {
-        $imageURL = strtolower(str_replace(' ', '-', $data['name'])).'.jpg';
+        $product = $this->productRepository->find($id);
 
-        $product = new Product();
+        if (!$product) {
+            throw $this->NotFoundHttpException('Product not found');
+        }
+        $imageURL = strtolower(str_replace(' ', '-', $data['name'])).'.jpg';
         $product->setName($data['name']);
         $product->setQuantity($data['quantity']);
-        $product->setPrice(10);
+        $product->setPrice($data['price']);
         $product->setImageURL($imageURL);
-        $product->setCreatedAt(new \DateTimeImmutable('now'));
-        $product->setStatus(true);
+        $product->setUpdatedAt(new \DateTimeImmutable('now'));
+        $product->setStatus($data['status']);
 
         $errors = $this->validator->validate($product);
 

@@ -29,6 +29,17 @@ export const useAdminProducts = defineStore('adminProducts', {
             } catch (e) {
                 console.log(e.data);
             }
+        },
+        async editProduct(id, formValues){
+            try {
+                const response = await api(`/admin/products/${id}`, {
+                    method: 'PUT',
+                    body: formValues
+                });
+                console.log("edit resp", response);
+            }catch (e) {
+                console.log(e.data);
+            }
         }
     }
 })

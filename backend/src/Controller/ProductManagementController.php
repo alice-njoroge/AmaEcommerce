@@ -81,6 +81,21 @@ class ProductManagementController extends AbstractController
     }
 
     /**
+     * @throws EntityNotFoundException
+     */
+    #[Route('/products/{id}', name: 'update_product', methods: ['PUT'])]
+    #[IsGranted('ROLE_EDIT_PRODUCT')]
+    public function update(Request $request, int $id): JsonResponse
+    {
+
+        $data = $request->toArray();
+        $this->saveProductUseCase->execute($data, $id);
+
+        return $this->json(['message' => 'Product successfully updated!']);
+    }
+
+
+    /**
      * Saves a product.
      *
      * @param Request $request the HTTP request object

@@ -27,6 +27,7 @@ onMounted(() => {
         <th scope="col" class="py-7">Image URL</th>
         <th scope="col" class="py-7">Quantity</th>
         <th scope="col" class="py-7">Price</th>
+        <th scope="col" class="py-7">Status</th>
         <th scope="col" class="py-7">Actions</th>
       </tr>
       </thead>
@@ -40,6 +41,7 @@ onMounted(() => {
         </td>
         <td> {{ product.quantity }}</td>
         <td> {{ product.price }}</td>
+        <td> {{ product.status === true ? 'Active' : 'Inactive'  }}</td>
         <td>
           <button @click="editProduct(product.id)">
             <font-awesome-icon :icon="faPenToSquare" class="mr-4"/>

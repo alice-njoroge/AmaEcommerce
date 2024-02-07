@@ -21,7 +21,6 @@ const schema = object({
   name: string().required('Name is required'),
   quantity: number().positive().required('Quantity is required'),
   price: number().positive().required('Price is required'),
-  productCategory: number().positive(),
 });
 
 onMounted(async () => {
@@ -38,11 +37,11 @@ const handleSubmit = async (validate) => {
   if (!response.valid) {
     console.log("error")
   }
-  console.log("success!!")
+  await adminProducts.editProduct(id.value, product.value);
+  navigateTo(`/admin/products`);
 
 }
 const productImageURL = (imageURL) => {
-
   const path = new URL(`~/assets/images`, import.meta.url).href;
   return `${path}/${imageURL}`
 
