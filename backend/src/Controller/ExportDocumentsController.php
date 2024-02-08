@@ -6,8 +6,6 @@ use PhpOffice\PhpWord\Exception\Exception;
 use PhpOffice\PhpWord\IOFactory;
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Settings;
-use PhpOffice\PhpWord\SimpleType\DocProtect;
-use PhpOffice\PhpWord\Style\Font;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Attribute\Route;
@@ -25,51 +23,60 @@ class ExportDocumentsController extends AbstractController
         $phpWord = new PhpWord();
         Settings::setDefaultPaper('Letter');
         $phpWord->setDefaultFontName('Times New Roman');
-        $phpWord->setDefaultFontSize(20);
-        // password protection
-        $documentProtection = $phpWord->getSettings()->getDocumentProtection();
-        $documentProtection->setEditing(DocProtect::READ_ONLY);
-        $documentProtection->setPassword('myPass');
+        $phpWord->setDefaultFontSize(12);
 
-        // any element you append to a document must reside inside of a Section
-        $section = $phpWord->addSection();
+        $sectionStyle = [
+            'orientation' => 'landscape',
+            'marginTop' => 600,
+            'colsNum' => 2,
+        ];
 
-        // Adding Text element to the Section having font styled by default...
-        $section->addText(
-            '"Learn from yesterday, live for today, hope for tomorrow. '
-            .'The important thing is not to stop questioning." '
-            .'(Albert Einstein)'
-        );
+        $sectionStyle2 = [
+            'font' => 'Helvetica',
+            'color' => '008080',
+            'marginTop' => 600,
+            'colsNum' => 2,
+            'breakType' => 'continuous',
+        ];
 
-        // Adding Text element with font customized inline...
-        $section->addText(
-            '"Great achievement is usually born of great sacrifice, '
-            .'and is never the result of selfishness." '
-            .'(Napoleon Hill)',
-            ['name' => 'Tahoma', 'size' => 10, 'color' => '008080']
-        );
+        $section = $phpWord->addSection($sectionStyle);
+        $section->addText('"Believe you can and you\'re halfway there." (Theodor Roosevelt)');
 
-        // Adding Text element with font customized using named font style...
-        $fontStyleName = 'oneUserDefinedStyle';
-        $phpWord->addFontStyle(
-            $fontStyleName,
-            ['name' => 'Tahoma', 'size' => 10, 'color' => '008080', 'bold' => true]
-        );
-        $section->addText(
-            '"The greatest accomplishment is not in never falling, '
-            .'but in rising again after you fall." '
-            .'(Vince Lombardi)',
-            $fontStyleName
-        );
+        $header = $section->addHeader();
+        $footer = $section->addFooter();
+        $header->addText('Lorem Ipsum headerrrrrrr');
+        $footer->addText('Lorem Ipsum fooooooteeeeer');
 
-        // Adding Text element with font customized using explicitly created font style object...
-        $fontStyle = new Font();
-        $fontStyle->setBold(true);
-        $fontStyle->setName('Tahoma');
-        $fontStyle->setSize(13);
-        $fontStyle->setColor('008080');
-        $myTextElement = $section->addText('"Believe you can and you\'re halfway there." (Theodor Roosevelt)');
-        $myTextElement->setFontStyle($fontStyle);
+        $tableStyle = [
+            'borderColor' => '006699',
+            'borderSize' => 6,
+            'cellMargin' => 50,
+            'bgColor' => '66BBFF',
+        ];
+        $firstRowStyle = ['bgColor' => '66BBFF'];
+        $phpWord->addTableStyle('myTable', $tableStyle, $firstRowStyle);
+        $table = $section->addTable('myTable');
+
+        $cellStyles = [
+            'bgColor' => '9966CC',
+            'gridSpan' => 3
+        ];
+        $table->addRow()->getStyle()->setTblHeader();
+        $table->addCell(2000, $cellStyles)->addText('Name');
+        $table->addCell(2000)->addText('Age');
+        $table->addCell(2000)->addText('Email');
+        $table->addCell(2000)->addText('Phone');
+        $table->addRow();
+        $table->addCell(2000)->addText('John Doe');
+        $table->addCell(2000)->addText('30');
+        $table->addCell(2000)->addText('johndoe@example.com');
+        $table->addCell(2000)->addText('1234567890');
+
+        $section1 = $phpWord->addSection($sectionStyle2);
+        $section1->getStyle()->setPageNumberingStart(5);
+        $section1->addText(' Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam eget ante nulla. Nam et mattis lectus. Nulla at turpis eget felis sagittis iaculis vitae vitae lorem. Ut aliquam arcu eu elit elementum, ut volutpat nisi placerat. Nam semper odio et est consectetur, ac tempus risus rhoncus. Quisque quis nibh mauris. Maecenas massa risus, tempus quis metus accumsan, finibus varius dolor. Vivamus at nisl a arcu tempor luctus. Nam at erat efficitur, semper erat at, lobortis nulla. Sed ac turpis lacus. Fusce est urna, volutpat a magna ac, pulvinar ultricies felis. Nulla pharetra ac felis non rhoncus. Duis commodo gravida orci, sed vulputate turpis congue eu. Sed egestas augue consectetur, bibendum nisl ut, tincidunt tortor. Nunc semper fermentum neque quis vulputate. Phasellus ornare massa a ante tincidunt, a porttitor mauris commodo.
+
+Nulla nisi augue, tristique id suscipit quis, semper et ipsum. Aliquam sit amet porttitor eros. Nullam at interdum neque. Donec nibh lectus, pharetra eget sagittis ac, rhoncus a mi. Aliquam eget tellus a libero consectetur placerat. Phasellus in sapien metus. In elementum tortor est, et lobortis urna sodales a. Nulla mollis quis augue id vehicula.');
 
         // Saving the document as OOXML file...
         $objWriter = IOFactory::createWriter($phpWord, 'Word2007');
@@ -82,7 +89,6 @@ class ExportDocumentsController extends AbstractController
         // Saving the document as ODF file...
         $objWriter = IOFactory::createWriter($phpWord, 'ODText');
         $objWriter->save('helloWorld.odt');
-
 
         return new JsonResponse(['message' => 'exported!!']);
     }

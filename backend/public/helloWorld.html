@@ -5,24 +5,57 @@
 <meta charset="UTF-8" />
 <title>PHPWord</title>
 <style>
-body {font-family: 'Times New Roman'; font-size: 20pt;}
-* {font-family: 'Times New Roman'; font-size: 20pt;}
+body {font-family: 'Times New Roman'; font-size: 12pt;}
+* {font-family: 'Times New Roman'; font-size: 12pt;}
 a.NoteRef {text-decoration: none;}
 hr {height: 1px; padding: 0; margin: 1em 0; border: 0; border-top: 1px solid #CCC;}
 table {border: 1px solid black; border-spacing: 0px; width : 100%;}
 td {border: 1px solid black;}
-.oneUserDefinedStyle {font-family: 'Tahoma'; font-size: 10pt; color: #008080; font-weight: bold;}
+.myTable {table-layout: auto; border-top-width: 0.3pt; border-left-width: 0.3pt; border-bottom-width: 0.3pt; border-right-width: 0.3pt;}
 body > div + div {page-break-before: always;}
 div > *:first-child {page-break-before: auto;}
-@page page1 {size: Letter portrait; margin-right: 1in; margin-left: 1in; margin-top: 1in; margin-bottom: 1in; }
+@page page1 {size: Letter landscape; margin-right: 1in; margin-left: 1in; margin-top: 0.41666666666667in; margin-bottom: 1in; }
+@page page2 {size: Letter portrait; margin-right: 1in; margin-left: 1in; margin-top: 0.41666666666667in; margin-bottom: 1in; }
 </style>
 </head>
 <body>
 <div style='page: page1'>
-<p>"Learn from yesterday, live for today, hope for tomorrow. The important thing is not to stop questioning." (Albert Einstein)</p>
-<p><span style="font-family: 'Tahoma'; font-size: 10pt; color: #008080;">"Great achievement is usually born of great sacrifice, and is never the result of selfishness." (Napoleon Hill)</span></p>
-<p><span class="oneUserDefinedStyle">"The greatest accomplishment is not in never falling, but in rising again after you fall." (Vince Lombardi)</span></p>
-<p><span style="font-family: 'Tahoma'; font-size: 13pt; color: #008080; font-weight: bold;">"Believe you can and you're halfway there." (Theodor Roosevelt)</span></p>
+<p>"Believe you can and you're halfway there." (Theodor Roosevelt)</p>
+<table class="myTable">
+<tr>
+<th colspan="3" bgcolor="#9966CC" color="#ffffff">
+<p>Name</p>
+</th>
+<th>
+<p>Age</p>
+</th>
+<th>
+<p>Email</p>
+</th>
+<th>
+<p>Phone</p>
+</th>
+</tr>
+<tr>
+<td>
+<p>John Doe</p>
+</td>
+<td>
+<p>30</p>
+</td>
+<td>
+<p>johndoe@example.com</p>
+</td>
+<td>
+<p>1234567890</p>
+</td>
+</tr>
+</table>
+</div>
+<div style='page: page2'>
+<p> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam eget ante nulla. Nam et mattis lectus. Nulla at turpis eget felis sagittis iaculis vitae vitae lorem. Ut aliquam arcu eu elit elementum, ut volutpat nisi placerat. Nam semper odio et est consectetur, ac tempus risus rhoncus. Quisque quis nibh mauris. Maecenas massa risus, tempus quis metus accumsan, finibus varius dolor. Vivamus at nisl a arcu tempor luctus. Nam at erat efficitur, semper erat at, lobortis nulla. Sed ac turpis lacus. Fusce est urna, volutpat a magna ac, pulvinar ultricies felis. Nulla pharetra ac felis non rhoncus. Duis commodo gravida orci, sed vulputate turpis congue eu. Sed egestas augue consectetur, bibendum nisl ut, tincidunt tortor. Nunc semper fermentum neque quis vulputate. Phasellus ornare massa a ante tincidunt, a porttitor mauris commodo.
+
+Nulla nisi augue, tristique id suscipit quis, semper et ipsum. Aliquam sit amet porttitor eros. Nullam at interdum neque. Donec nibh lectus, pharetra eget sagittis ac, rhoncus a mi. Aliquam eget tellus a libero consectetur placerat. Phasellus in sapien metus. In elementum tortor est, et lobortis urna sodales a. Nulla mollis quis augue id vehicula.</p>
 </div>
 </body>
 </html>
