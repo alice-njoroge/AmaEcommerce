@@ -30,11 +30,11 @@ class SaveProductUseCase
         if (!$product) {
             throw $this->NotFoundHttpException('Product not found');
         }
-        $imageURL = strtolower(str_replace(' ', '-', $data['name'])).'.jpg';
+
         $product->setName($data['name']);
         $product->setQuantity($data['quantity']);
         $product->setPrice($data['price']);
-        $product->setImageURL($imageURL);
+        $product->setImageURL($data['imageURL']);
         $product->setUpdatedAt(new \DateTimeImmutable('now'));
         $product->setStatus($data['status']);
 

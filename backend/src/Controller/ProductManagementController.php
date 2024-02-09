@@ -94,7 +94,7 @@ class ProductManagementController extends AbstractController
         return $this->json(['message' => 'Product successfully updated!']);
     }
 
-    #[Route('/products/upload', name: 'update_product_image', methods: ['POST'])]
+    #[Route('/products-upload', name: 'update_product_image', methods: ['POST'])]
     #[IsGranted('ROLE_EDIT_PRODUCT')]
     public function uploadProductImage(Request $request): JsonResponse
     {

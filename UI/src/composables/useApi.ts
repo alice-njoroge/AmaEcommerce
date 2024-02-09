@@ -5,10 +5,7 @@ export default function useApi() {
     return ofetch.create({
         baseURL: 'http://api.amazon.localhost',
         credentials: 'include',
-        headers: {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json'
-        },
+
         async onResponseError({request, response, options}) {
             // Log error
             console.log(

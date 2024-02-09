@@ -6,6 +6,8 @@ import {number, object, string} from "yup";
 const route = useRoute();
 const router = useRouter();
 const adminProducts = useAdminProducts();
+const imageInput = ref();
+const uploadedImage = ref(null);
 
 let id = ref();
 const product = ref({
@@ -32,11 +34,23 @@ onMounted(async () => {
 const handleClick = () => {
   router.back();
 }
+
+const handleImageSelected = () => {
+  if (imageInput.value){
+    uploadedImage.value = imageInput.value.files[0];
+  }
+
+}
 const handleSubmit = async (validate) => {
   const response = await validate();
   if (!response.valid) {
     console.log("error")
   }
+  const formData = new FormData();
+  formData.append('image', uploadedImage.value);
+  let uploadRes = await  adminProducts.uploadImage(formData);
+  product.value.imageURL = uploadRes.imageURL
+
   await adminProducts.editProduct(id.value, product.value);
   navigateTo(`/admin/products`);
 
@@ -159,18 +173,31 @@ const productImageURL = (imageURL) => {
         </div>
       </div>
       <div class="flex flex-wrap justify-around">
-        <div class="card ml-10 w-5/12">
+        <div class="card ml-10 w-full">
           <img :src="productImageURL(product.imageURL)" class="mb-3" width="300" alt=""/>
-          <app-button class="secondary mr-2"> Update Image</app-button>
         </div>
 
         <div class="w-4/12">
-          <label class="block text-lg font-medium text-gray-700 mb-1.5" > Product Status </label>
+          <label class="block text-lg font-medium text-gray-700 mb-1.5"> Product Status </label>
           <label class="relative inline-flex items-center cursor-pointer ml-2.5">
-            <input type="checkbox" v-model="product.status" :true-value="true" :false-value="false" class="sr-only peer">
-            <div class="w-11 h-6 bg-gray-200 rounded-full peer peer-focus:ring-4 peer-focus:ring-green-300 dark:peer-focus:ring-green-800 dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-green-600"></div>
+            <input type="checkbox" v-model="product.status" :true-value="true" :false-value="false"
+                   class="sr-only peer">
+            <div
+                class="w-11 h-6 bg-gray-200 rounded-full peer peer-focus:ring-4 peer-focus:ring-green-300 dark:peer-focus:ring-green-800 dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-green-600"></div>
             <span class="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300">Deactivate Product </span>
           </label>
+        </div>
+      </div>
+
+      <div class="flex flex-wrap justify-start">
+        <div class="w-5/12 ml-11">
+          <label class="block m-2 text-sm font-medium text-gray-900 dark:text-white" for="file_input">Upload
+            file</label>
+          <input
+              ref="imageInput"
+              @change="handleImageSelected"
+              class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+              id="file_input" type="file">
         </div>
       </div>
 
