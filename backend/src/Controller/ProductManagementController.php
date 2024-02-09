@@ -7,6 +7,7 @@ use App\Repository\ProductRepository;
 use App\useCases\SaveProductUseCase;
 use Doctrine\ORM\EntityNotFoundException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Attribute\Route;
@@ -87,13 +88,30 @@ class ProductManagementController extends AbstractController
     #[IsGranted('ROLE_EDIT_PRODUCT')]
     public function update(Request $request, int $id): JsonResponse
     {
-
         $data = $request->toArray();
         $this->saveProductUseCase->execute($data, $id);
 
         return $this->json(['message' => 'Product successfully updated!']);
     }
 
+    #[Route('/products/upload', name: 'update_product_image', methods: ['POST'])]
+    #[IsGranted('ROLE_EDIT_PRODUCT')]
+    public function uploadProductImage(Request $request): JsonResponse
+    {
+        /** @var UploadedFile $uploadedFile */
+        // get the file being uploaded by the user from the request
+        $uploadedFile = $request->files->get('image');
+        // find the absolute location of uploads directory
+        $destination = $this->getParameter('kernel.project_dir').'/public/uploads';
+        // get the original file name without the extension,the original image name in your local machine
+        $originalFileName = pathinfo($uploadedFile->getClientOriginalName(), PATHINFO_FILENAME);
+        // guess the extension and append the name you just got
+        $newFileName = uniqid().'.'.$uploadedFile->guessExtension();
+        // move the file to the public/uploads folder
+        $uploadedFile->move($destination, $newFileName);
+
+        return new JsonResponse(['imageURL' => $newFileName]);
+    }
 
     /**
      * Saves a product.

@@ -20,6 +20,9 @@ onMounted(() => {
 
   <div class="card-table relative overflow-x-auto shadow-md sm:rounded-lg">
     <h1 class="text-center dark:text-green-700 font-bold mt-3 ">Products</h1>
+      <div class="flex justify-end">
+        <app-button class="m-2"> Create New </app-button>
+      </div>
     <table class="w-full text-sm text-left rtl:text-right text-black-700">
       <thead class="text-left text-green-700 uppercase border-b dark:border-gray-700">
       <tr class="font-bold text-black-900">

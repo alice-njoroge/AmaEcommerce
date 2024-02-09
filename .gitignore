@@ -7,3 +7,4 @@ dist-ssr
 .env
 .php-cs-fixer.cache
 .vscode
+/backend/public/uploads
