@@ -25,6 +25,7 @@ const count = ref(0);
 </script>
 <template>
   <li class="card">
+    <p class="flex justify-end text-red-500" v-if="product.quantity < 10"> only {{product.quantity}} items left! </p>
     <img :src="productImageURL(product.imageURL)" class="mb-3" width="300" alt=""/>
     <div>
       {{ product.name }} - <span class="text-green-500">${{ product.price }}</span>
